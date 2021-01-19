@@ -2,7 +2,6 @@
 
 import unittest
 import baseball_game as bg
-
 from mock import patch
 from io import StringIO
 
@@ -122,7 +121,7 @@ class TestBaseballGame(unittest.TestCase):
                 console = fakeOutput.getvalue().strip().split("\n")
                 for i in range(2,6):
                     self.assertTrue("WRONG INPUT" in console[i].upper())
-
+        
         input_list = [str(value) for value in range(101, 1000)]
         input_list.append("YES")
         input_list.extend([str(value) for value in range(101, 1000)])
@@ -231,3 +230,7 @@ class TestBaseballGame(unittest.TestCase):
                     ball += 1
         result = [strikes, ball]
         return result
+
+
+if __name__ == '__main__':
+    unittest.main()
