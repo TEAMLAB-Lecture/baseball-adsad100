@@ -2,7 +2,7 @@
 
 import unittest
 import baseball_game as bg
-from unittest.mock import patch
+from mock import patch
 from io import StringIO
 
 

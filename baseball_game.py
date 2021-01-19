@@ -31,7 +31,7 @@ def is_digit(user_user_input):
     # '''
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
-    result = user_user_input.isdigit()
+    result = str(user_user_input).isdigit()
     
     # ==================================
     return result
@@ -83,7 +83,7 @@ def is_duplicated_number(three_digit):
     # '''
     # ===Modify codes below=============
     # ==================================
-    return len(set(three_digit)) != 3
+    return (len(set(three_digit)) != 3)
 
 
 def is_validated_number(user_user_input):
@@ -109,8 +109,9 @@ def is_validated_number(user_user_input):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
 
-    if is_digit(user_user_input) and is_between_100_and_999(user_user_input) and not is_duplicated_number(user_user_input):
-        return True
+    if is_digit(user_user_input):
+        if is_between_100_and_999(user_user_input) and not is_duplicated_number(user_user_input):
+            return True
     return False
 
 
@@ -181,10 +182,10 @@ def get_strikes_or_ball(user_user_input, random_number):
     return [strike_cnt, ball_cnt]
 
 
-def is_yes(one_more_input):
+def is_yes(more_game):
     # '''
     # Input:
-    #   - one_more_input : 문자열값으로 사용자가 입력하는 문자
+    #   - more_game : 문자열값으로 사용자가 입력하는 문자
     # Output:
     #   - 입력한 값이 대소문자 구분없이 "Y" 또는 "YES"일 경우 True,
     #     그렇지 않을 경우 False를 반환함
@@ -208,16 +209,16 @@ def is_yes(one_more_input):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
 
-    if one_more_input.lower() == 'y' or one_more_input.lower() == 'yes':
+    if more_game.lower() == 'y' or more_game.lower() == 'yes':
         return True
 
     return False
 
 
-def is_no(one_more_input):
+def is_no(more_game):
     # '''
     # Input:
-    #   - one_more_input : 문자열값으로 사용자가 입력하는 문자
+    #   - more_game : 문자열값으로 사용자가 입력하는 문자
     # Output:
     #   - 입력한 값이 대소문자 구분없이 "N" 또는 "NO"일 경우 True,
     #     그렇지 않을 경우 False를 반환함
@@ -241,40 +242,41 @@ def is_no(one_more_input):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
 
-    if one_more_input.lower() == 'n' or one_more_input.lower() == 'no':
+    if more_game.lower() == 'n' or more_game.lower() == 'no':
         return True
     return False
 
 
 def main():
     print("Play Baseball")
-    user_input = 999
-    random_number = str(get_not_duplicated_three_digit_number())
-    print("Random Number is : ", random_number)
-    # ===Modify codes below=============
-    # 위의 코드를 포함하여 자유로운 수정이 가능함
     while True:
-        user_input = input('Input guess number : ')
-        if not is_validated_number(user_input):
-            print('Wrong Input, Input again')
-        else:
-            result = get_strikes_or_ball(user_input, random_number)
-            # print(f'Strikes : {result[0]} , Balls : {result[1]}')
-            print('Strikes : {} , Balls : {}'.format(result[0], result[1]))
-            if result[0] == 3:
-                while True:
-                    one_more_input = input('You win, one more(Y/N)?')
-                    if is_yes(one_more_input):
-                        random_number = str(get_not_duplicated_three_digit_number())
-                        print("Random Number is : ", random_number)
-                        break
-                    elif is_no(one_more_input):
-                        print("Thank you for using this program")
-                        print("End of the Game")
-                        return 
-                    else:
-                         print('Wrong Input, Input again')
-        
+        random_number = str(get_not_duplicated_three_digit_number())
+        print("Random Number is : ", random_number)
+        more_game = 'Y'
+        while True:
+            user_input = input('Input guess number : ')
+            if user_input == '0':
+                more_game = 'N'
+                break
+            if is_validated_number(user_input):
+                result = get_strikes_or_ball(user_input, random_number)
+                #print(f'Strikes : {result[0]} , Balls : {result[1]}')
+                print('Strikes : {} , Balls : {}'.format(result[0], result[1]))
+                if result[0] == 3:
+                    while True:
+                        more_game = str(input('You win, one more(Y/N)? '))
+                        if is_yes(more_game) or is_no(more_game):
+                            break
+                        else:
+                            print('Wrong Input, Input again')
+                    break
+            else:
+                print('Wrong Input, Input again')
+                          
+        if is_no(more_game):
+            print("Thank you for using this program")
+            print("End of the Game")
+            break
     # ==================================
     
 
